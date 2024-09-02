@@ -7,17 +7,20 @@ RUN apt-get update && apt-get install -y \
     g++ \
     make \
     libgl1-mesa-dev \
-    libx11-dev
-
-# 소스 코드 복사
-COPY . /usr/src/TriggerTime
+    libx11-dev \
+    libxxf86vm-dev \
+    libglew-dev \
+    git \
+    && rm -rf /var/lib/apt/lists/*
 
 # 작업 디렉토리 설정
 WORKDIR /usr/src/TriggerTime
 
-# CMake로 빌드
-RUN cmake .
-RUN make
+# 소스 코드 복사
+COPY . /usr/src/TriggerTime
 
-# 게임 서버 실행
-CMD ["./TriggerTime"]
+# 빌드 과정
+RUN cmake . && make
+
+# 애플리케이션 실행 명령어
+CMD ["./tt"]
